@@ -1,0 +1,9 @@
+wad\service\MessageService.class
+wad\controller\DefaultController.class
+wad\config\WebSocketConfiguration.class
+wad\controller\ChatController.class
+wad\service\Poliitikko.class
+wad\service\UserService.class
+wad\Chatti.class
+wad\service\RoBotti.class
+wad\domain\Message.class
