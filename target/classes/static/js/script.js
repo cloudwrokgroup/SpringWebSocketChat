@@ -62,6 +62,7 @@
                      
                     return paragraph; 
                 }
+                
 
                 function displayMessage(message) {
                     
