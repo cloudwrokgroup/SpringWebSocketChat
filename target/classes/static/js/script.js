@@ -1,6 +1,7 @@
                 var client = null;
                 // not a secure way to handle this, but works as a demo
-                var username = /*[[${username}]]*/ "jack bauer";
+                //var username = /*[[${username}]]*/ document.getElementById("username").innerHTML;
+                var username = /*[[${username}]]*/ $("#username").html();
                 var channel = /*[[${channel}]]*/ "default";
                 var time = "123";
                 // messages defined in websocket config
@@ -44,7 +45,11 @@
                 function displayUsers(users){
                     $("#userbox").empty();
                     $.each(users, function(i, user) {
-                        $("<p/>").text(user).appendTo("#userbox");
+                        if(user===username){
+                            $("<b/>").text(user).appendTo("#userbox");
+                        }else{
+                            $("<p/>").text(user).appendTo("#userbox");
+                        }
                     });
                     
                 }
@@ -72,5 +77,6 @@
                 setTimeout(function(){
                     init();
                 },500);
+
                 
                 

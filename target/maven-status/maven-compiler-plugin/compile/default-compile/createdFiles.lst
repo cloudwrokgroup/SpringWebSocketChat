@@ -6,4 +6,6 @@ wad\service\RoBotti.class
 wad\domain\Message.class
 wad\service\MessageService.class
 wad\config\WebSocketConfiguration.class
+wad\WebSocketDisconnectListener.class
+wad\domain\User.class
 wad\Chatti.class

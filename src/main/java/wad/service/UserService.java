@@ -7,10 +7,12 @@ package wad.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import wad.domain.User;
 
 /**
  *
@@ -19,22 +21,44 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     
-    private HashMap<String, String> users = new HashMap();
+    private HashMap<String, User> users = new HashMap();
     
     @Autowired
     private SimpMessagingTemplate template;
     
-    public void addUser(String id, String name){
-        this.users.put(id,name);
-        this.getUsers();
-    }
+
     
     public void getUsers(){
-        this.template.convertAndSend("/users", users.values());
+        HashSet<String> userNames = new HashSet();
+        for(User u : users.values()){
+            userNames.add(u.getUsername());
+        }
+        this.template.convertAndSend("/users", userNames);
     }
+    
+    //for listener
+    public void addUser(String id, User user){
+        this.users.put(id,user);
+        
+        getUsers();
+    }
+    //for controller
+    public User checkUser(User user){
+        String tempIp = user.getIp();
+        for(User u : users.values()){
+            if(user.getIp().equals(u.getIp())){
+                user.setUsername(u.getUsername());
+                break;
+            }
+        }
+        return user;
+    }
+    
     public void deleteUser(String key){
         this.users.remove(key);
-        this.getUsers();
+        getUsers();
     }
+    
+    
     
 }

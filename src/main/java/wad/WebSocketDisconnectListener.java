@@ -12,6 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import wad.domain.User;
 import wad.service.UserService;
 
 
@@ -22,7 +23,7 @@ public class WebSocketDisconnectListener implements ApplicationListener {
     UserService userService;
     
     
-    private String name = "eka";
+    private User user = null;
 
     @EventListener
     @Override
@@ -30,7 +31,7 @@ public class WebSocketDisconnectListener implements ApplicationListener {
         
         if(e.getClass()==SessionConnectEvent.class){
             SessionConnectEvent ev = (SessionConnectEvent) e;
-            userService.addUser(ev.getMessage().getHeaders().get("simpSessionId").toString(), name);
+            userService.addUser(ev.getMessage().getHeaders().get("simpSessionId").toString(), user);
         }
         if(e.getClass()==SessionDisconnectEvent.class){
             SessionDisconnectEvent ev = (SessionDisconnectEvent) e;
@@ -39,8 +40,8 @@ public class WebSocketDisconnectListener implements ApplicationListener {
 
     }
     
-    public void addName(String name){
-        this.name = name;
+    public void addUser(User user){
+        this.user = user;
     }
     
     
