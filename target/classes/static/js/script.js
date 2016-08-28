@@ -32,11 +32,46 @@
                     client.send("/ws/getusers");
 
                 }
-               
-                function displayMessage(message) {
+                function linkify(message){
+                    message = message.replace(/(www\..+?)(\s|$)/g, function(text, link) {
+                       return '<a href="http://'+ link +'">'+ link +'</a>';
+                        })
+                    return message;    
+                }
+                
+                function buildMessage(message){
                     var paragraph = document.createElement("p");
-                    var textNode = document.createTextNode(message.time + ': ' + message.username + ': ' + message.content);
-                    paragraph.appendChild(textNode);
+                     var textNode = document.createTextNode(message.time + ': ' + message.username + ': ');
+                    paragraph.appendChild(textNode);      
+                    
+                    var msgParts = message.content.split(" ");
+                    
+                    $.each(msgParts,function(i, word){
+                        if(word.indexOf("www.") !== -1){
+                            var a = document.createElement('a');
+                            var linkText = document.createTextNode(word);
+                            a.appendChild(linkText);
+                            a.href = word;
+                            a.target = 'blank';
+                            paragraph.appendChild(a);
+                        }else{
+                            var tNode = document.createTextNode(word+" ");
+                            paragraph.appendChild(tNode);
+                        }
+                    });
+                     
+                    return paragraph; 
+                }
+
+                function displayMessage(message) {
+                    
+                    //var paragraph = document.createElement("p");
+                    
+                    //var textNode = document.createTextNode(message.time + ': ' + message.username + ': ' + message);
+                    
+                    var paragraph = buildMessage(message);
+                    
+                    //paragraph.appendChild(textNode);
                     document.getElementById("messages").appendChild(paragraph);
                     var objDiv = document.getElementById("messages");
                     objDiv.scrollTop = objDiv.scrollHeight;
@@ -77,6 +112,11 @@
                 setTimeout(function(){
                     init();
                 },500);
+                
+                
+
+                
+
 
                 
                 
