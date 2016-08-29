@@ -24,6 +24,10 @@
 
                 // utility functions for displaying messages
                 function send() {
+                    if($("#file").val()!= ''){
+                        window.alert("ON!");
+                    }
+                    
                     client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time}));
                     document.getElementById('message').value = "";
                 }
