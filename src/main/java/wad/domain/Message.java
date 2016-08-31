@@ -6,6 +6,7 @@ public class Message {
     private String channel;
     private String content;
     private String time;
+    private String image;
 
     public String getUsername() {
         return username;
@@ -38,5 +39,14 @@ public class Message {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
     
 }

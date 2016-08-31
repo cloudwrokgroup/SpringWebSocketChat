@@ -24,11 +24,17 @@
 
                 // utility functions for displaying messages
                 function send() {
+                    var imgName = 'default';
                     if($("#file").val()!= ''){
-                        window.alert("ON!");
+                        $("#file").upload("/photo",function(success){
+                            console.log("done");
+                        });
+                        imgName = $("#file").val().split('\\').pop();
+                        console.log("PAPSDPASD: " + imgName);    
                     }
                     
-                    client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time}));
+                    
+                    client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
                     document.getElementById('message').value = "";
                 }
                 function init(){
@@ -43,12 +49,37 @@
                     return message;    
                 }
                 
+                function urlExists(url){
+                        var http = new XMLHttpRequest();
+                        http.open('HEAD', url, false);
+                        http.send();
+                        return http.status!=404;
+                 }
+                
                 function buildMessage(message){
                     var paragraph = document.createElement("p");
-                     var textNode = document.createTextNode(message.time + ': ' + message.username + ': ');
-                    paragraph.appendChild(textNode);      
+                    paragraph.id = 'msgcontent';
+  
                     
                     var msgParts = message.content.split(" ");
+                    paragraph.appendChild(document.createElement('p'));
+                    if(message.image!='default' && message.image!=null){
+                        //window.alert(message.image);
+                        var img = document.createElement('img');
+                        img.src = '/uploads/'+message.image;
+                        img.height = 100;
+                        img.length = 200;
+                        img.id = 'msgimg';
+                        paragraph.appendChild(document.createElement('p'));
+                        while(urlExists('/uploads/'+message.image)==false){
+                            console.log("ei löydy");
+                        }
+                        console.log("löytyi");
+                        
+                        paragraph.appendChild(img);
+                        paragraph.appendChild(document.createElement('p'));
+                        document.getElementById("file").value = "";
+                    }
                     
                     $.each(msgParts,function(i, word){
                         if(word.indexOf("www.") !== -1){
@@ -74,10 +105,18 @@
                     
                     //var textNode = document.createTextNode(message.time + ': ' + message.username + ': ' + message);
                     
-                    var paragraph = buildMessage(message);
+                    var paragraph2 = buildMessage(message);
                     
                     //paragraph.appendChild(textNode);
-                    document.getElementById("messages").appendChild(paragraph);
+                    var paragraph1 = document.createElement("p");
+                    paragraph1.appendChild(document.createTextNode(message.time + ': ' + message.username + ': '));
+                    
+                    var oneMsgDiv = document.createElement('div');
+                    oneMsgDiv.id = 'oneMsgDiv';
+                    oneMsgDiv.appendChild(paragraph1);
+                    oneMsgDiv.appendChild(paragraph2);
+                    
+                    document.getElementById("messages").appendChild(oneMsgDiv);
                     var objDiv = document.getElementById("messages");
                     objDiv.scrollTop = objDiv.scrollHeight;
                 }

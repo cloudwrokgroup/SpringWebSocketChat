@@ -2,6 +2,23 @@ body{
     background-color: rgb(1,95,107)!important;
     height: 100%!important;
 }
+#msgcontent{
+    margin-top: -0.5em;
+    padding-left: 3.5em;
+}
+#msgimg{
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+#oneMsgDiv{
+    background: rgb(217, 217, 217);
+    padding-top: 0.3em;
+    padding-left: 0.3em; 
+    padding-bottom: -0.1em;
+    border-top-style: solid;
+    border-color: rgb(1,95,107);
+}
 .myButton {
 	-moz-box-shadow:inset 0px 0px 15px 3px #23395e;
 	-webkit-box-shadow:inset 0px 0px 15px 3px #23395e;
@@ -65,14 +82,13 @@ body{
                 height: 55em; 
                 overflow-y: scroll;
                 float:left;
-                padding-left: 5px;
 
 
 -webkit-border-top-left-radius: 30px;
 -moz-border-radius-topleft: 30px;
 border-top-left-radius: 30px;
 
-background: rgb(217, 217, 217);
+    background: rgb(217, 217, 217);
 }
 .box{
     padding: 3em;
