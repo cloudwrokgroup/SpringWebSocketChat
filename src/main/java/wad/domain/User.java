@@ -5,12 +5,16 @@
  */
 package wad.domain;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  *
  * @author Asus
  */
 public class User {
     
+
     private String username;
     
     private String ip;

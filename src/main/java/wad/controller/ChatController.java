@@ -47,22 +47,35 @@ public class ChatController {
         User user = new User();
         user.setIp(request.getRemoteAddr().toString());
         user.setUsername(username);
-        
         user = userService.checkUser(user);
+        if(user.getUsername().equals("**TAKEN**"))
+            return "redirect:/login/error/1";
+        if(user.getUsername().length()<2||user.getUsername().length()>20)
+            return "redirect:/login/error/2";
         this.listener.addUser(user);
         model.addAttribute("channel", channel);
         model.addAttribute("username", user.getUsername());
+        
         return "chat";
+    }
+    //Error ID:s 1:username taken. 2:Username length
+    @RequestMapping(value="/login/error/{id}")
+    public String loginError(Model model, @PathVariable int id){
+        if(id==1)
+            model.addAttribute("error", "Username is taken, please choose another.");
+        if(id==2)
+            model.addAttribute("error", "Username legth has to be between 2 and 20 characters.");        
+        return "index";
     }
     
     @RequestMapping(value="/photo")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void photo(MultipartFile file) throws IOException{
-        
+    public ResponseEntity<String> photo(MultipartFile file) throws IOException{
         System.out.println("PHOTO TULI");
         
-        System.out.println(file.getBytes().length);
-        if (!file.isEmpty()) {
+        System.out.println("Kuvan tiedot: "+file.getContentType() +" " +file.getBytes().length);
+
+        if (!file.isEmpty()&&file.getBytes().length<1000000) {
+            if(file.getContentType().equals("image/png")||file.getContentType().equals("image/jpeg")){
                 try {
                     String uploadsDir = "/uploads/";
                     String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);
@@ -71,11 +84,14 @@ public class ChatController {
                     }
                     File dest = new File(realPathtoUploads + file.getOriginalFilename());
                     file.transferTo(dest);
-                }catch(Exception e){
-                    
-                }
+                    return new ResponseEntity<String>(HttpStatus.OK);
+                }catch(Exception e){}
+            }
         }
+        return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        
     }
+    
     
 
 

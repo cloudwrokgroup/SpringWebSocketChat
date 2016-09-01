@@ -50,6 +50,9 @@ public class UserService {
                 user.setUsername(u.getUsername());
                 break;
             }
+            if(user.getUsername().equals(u.getUsername())){
+                user.setUsername("**TAKEN**");
+            }
         }
         return user;
     }

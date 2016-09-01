@@ -1,11 +1,18 @@
 package wad.domain;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Message {
 
     private String username;
+    
     private String channel;
+    
     private String content;
+    
     private String time;
+    
     private String image;
 
     public String getUsername() {

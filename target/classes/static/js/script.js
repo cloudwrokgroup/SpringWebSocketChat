@@ -22,25 +22,38 @@
                 });
                 
 
-                // utility functions for displaying messages
                 function send() {
                     var imgName = 'default';
-                    if($("#file").val()!= ''){
-                        $("#file").upload("/photo",function(success){
-                            console.log("done");
-                        });
-                        imgName = $("#file").val().split('\\').pop();
-                        console.log("PAPSDPASD: " + imgName);    
-                    }
-                    
-                    
+
                     client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
                     document.getElementById('message').value = "";
                 }
+                
+                
+                document.getElementById("file").onchange = function() {
+                    if(confirm("Haluatko varmasti lähettää seuraavan kuvan: " +  $("#file").val().split('\\').pop())){
+                        var imgName = 'default';
+                        if($("#file").val()!= ''){
+                            $("#file").upload("/photo",function(success){
+                                if(success==false){
+                                    console.log("TOIMIIPI CUVVES");
+                                }else{
+                                    console.log("EIPÄ TOIMI CUVVES");
+                                }
+                            });
+                            
+                            
+                            imgName = $("#file").val().split('\\').pop();
+                            console.log("PAPSDPASD: " + imgName); 
+                            client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
+                            document.getElementById("file").disabled = true; 
+                            document.getElementById("action-info").textContent = 'Lähetetään kuvaa..';
+                        }
+                    }
+                };
+                
                 function init(){
-                    
                     client.send("/ws/getusers");
-
                 }
                 function linkify(message){
                     message = message.replace(/(www\..+?)(\s|$)/g, function(text, link) {
@@ -79,6 +92,12 @@
                         paragraph.appendChild(img);
                         paragraph.appendChild(document.createElement('p'));
                         document.getElementById("file").value = "";
+                        if(document.getElementById("file").disabled == true){
+                            if(message.username==username){
+                                document.getElementById("file").disabled = false;
+                                document.getElementById("action-info").textContent = '';
+                            }
+                        }
                     }
                     
                     $.each(msgParts,function(i, word){
@@ -94,20 +113,10 @@
                             paragraph.appendChild(tNode);
                         }
                     });
-                     
                     return paragraph; 
                 }
-                
-
                 function displayMessage(message) {
-                    
-                    //var paragraph = document.createElement("p");
-                    
-                    //var textNode = document.createTextNode(message.time + ': ' + message.username + ': ' + message);
-                    
                     var paragraph2 = buildMessage(message);
-                    
-                    //paragraph.appendChild(textNode);
                     var paragraph1 = document.createElement("p");
                     paragraph1.appendChild(document.createTextNode(message.time + ': ' + message.username + ': '));
                     

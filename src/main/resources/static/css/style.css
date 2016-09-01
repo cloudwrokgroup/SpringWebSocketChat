@@ -2,6 +2,12 @@ body{
     background-color: rgb(1,95,107)!important;
     height: 100%!important;
 }
+#error{
+    color: red;
+}
+#action-info{
+    color: red;
+}
 #msgcontent{
     margin-top: -0.5em;
     padding-left: 3.5em;

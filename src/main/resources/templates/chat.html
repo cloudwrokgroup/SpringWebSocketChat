@@ -22,7 +22,10 @@
                     </div>
                 
                 <div id="messagebox">
-                    <p><input type="text" name="message" id="message" size="150"/><input class="myButton" type="button" onclick="send();" value="Say!"/><input type="file" name="file" id="file"/></p>
+                    <p><input type="text" name="message" id="message" size="150"/><input class="myButton" type="button" onclick="send();" value="Say!"/>
+                        <label class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" style="display: none;"/></label> 
+                        <span id="action-info"></span>
+                    </p>
                     
                 </div>
                 <p><span id="username" th:text="${username}"></span></p>    
