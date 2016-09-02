@@ -22,14 +22,17 @@
                     </div>
                 
                 <div id="messagebox">
-                    <p><textArea maxlength="300" name="message" id="message" autofocus="true"></textArea>
-                        <input class="myButton" type="button" onclick="send();" value="Say!"/>
-                        <label class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg" style="display: none;"/></label> 
+                    <div id="helpdiv"><input class="mySendButton" type="button" onclick="send();" value=">>>"/></div>
+                        
+                        <textArea maxlength="300" name="message" id="message" autofocus="true"></textArea>
+                        <div>    
+                        <label id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg" style="display: none;"/></label> 
+                        </div>
                         <span id="action-info"></span>
-                    </p>
+                    <span id="username" th:text="${username}"></span>  
                     
                 </div>
-                <p><span id="username" th:text="${username}"></span></p>    
+                 
         </div>
 
 
