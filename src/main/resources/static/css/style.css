@@ -80,6 +80,8 @@ body{
         margin-right: 2.5em;
         margin-top: 0.4em;
         float:right;
+        visibility: hidden;
+        
     
 }
 #imgsndbtn{
