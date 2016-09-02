@@ -5,13 +5,14 @@
  */
 package wad.domain;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.Entity;
+
 
 /**
  *
  * @author Asus
  */
+@Entity
 public class User {
     
 
