@@ -23,23 +23,20 @@
                 
 
                 function send() {
-                    var imgName = 'default';
+                    if(document.getElementById('message').value.length>0){
+                        var imgName = 'default';
 
-                    client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
-                    document.getElementById('message').value = "";
+                        client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
+                        document.getElementById('message').value = "";
+                    }
                 }
-                
                 
                 document.getElementById("file").onchange = function() {
                     if(confirm("Haluatko varmasti lähettää seuraavan kuvan: " +  $("#file").val().split('\\').pop())){
                         var imgName = 'default';
                         if($("#file").val()!= ''){
                             $("#file").upload("/photo",function(success){
-                                if(success==false){
-                                    console.log("TOIMIIPI CUVVES");
-                                }else{
-                                    console.log("EIPÄ TOIMI CUVVES");
-                                }
+                                //Ei toimi vielä, en saa ajax http vastausta ulos, onnistuiko kuvan lähetys
                             });
                             
                             
@@ -78,18 +75,29 @@
                     paragraph.appendChild(document.createElement('p'));
                     if(message.image!='default' && message.image!=null){
                         //window.alert(message.image);
+                        var linkElement = document.createElement('a');
                         var img = document.createElement('img');
                         img.src = '/uploads/'+message.image;
                         img.height = 100;
                         img.length = 200;
                         img.id = 'msgimg';
+                        linkElement.href = '/uploads/'+message.image;
+                        linkElement.target = 'blank';
                         paragraph.appendChild(document.createElement('p'));
+                        var countx = 0;
                         while(urlExists('/uploads/'+message.image)==false){
-                            console.log("ei löydy");
+                            console.log("oottaa");
+                            sleep(500);
+                            if(countx>20){
+                                break;
+                            }
+                            countx++;
                         }
                         console.log("löytyi");
                         
-                        paragraph.appendChild(img);
+                        linkElement.appendChild(img);
+                        
+                        paragraph.appendChild(linkElement);
                         paragraph.appendChild(document.createElement('p'));
                         document.getElementById("file").value = "";
                         if(document.getElementById("file").disabled == true){
@@ -101,7 +109,7 @@
                     }
                     
                     $.each(msgParts,function(i, word){
-                        if(word.indexOf("www.") !== -1){
+                        if(word.indexOf("www.") !== -1||word.indexOf("http:") !== -1||word.indexOf("https:") !== -1){
                             var a = document.createElement('a');
                             var linkText = document.createTextNode(word);
                             a.appendChild(linkText);
@@ -165,6 +173,16 @@
                 setTimeout(function(){
                     init();
                 },500);
+                
+                
+                function sleep(milliseconds) {
+                    var start = new Date().getTime();
+                    for (var i = 0; i < 1e7; i++) {
+                      if ((new Date().getTime() - start) > milliseconds){
+                        break;
+                      }
+                    }
+                }
                 
                 
 

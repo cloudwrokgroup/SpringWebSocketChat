@@ -17,6 +17,9 @@ body{
     -moz-border-radius: 20px;
     border-radius: 20px;
 }
+#message{
+    width: 85%;
+}
 #oneMsgDiv{
     background: rgb(217, 217, 217);
     padding-top: 0.3em;

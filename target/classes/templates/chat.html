@@ -22,8 +22,9 @@
                     </div>
                 
                 <div id="messagebox">
-                    <p><input type="text" name="message" id="message" size="150"/><input class="myButton" type="button" onclick="send();" value="Say!"/>
-                        <label class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" style="display: none;"/></label> 
+                    <p><textArea maxlength="300" name="message" id="message" autofocus="true"></textArea>
+                        <input class="myButton" type="button" onclick="send();" value="Say!"/>
+                        <label class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg" style="display: none;"/></label> 
                         <span id="action-info"></span>
                     </p>
                     
