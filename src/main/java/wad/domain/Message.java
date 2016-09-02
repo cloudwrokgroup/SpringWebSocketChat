@@ -1,9 +1,10 @@
 package wad.domain;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.Entity;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-public class Message {
+@Entity
+public class Message extends AbstractPersistable<Long>{
 
     private String username;
     

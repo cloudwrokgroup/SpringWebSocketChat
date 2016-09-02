@@ -6,6 +6,7 @@
 package wad.domain;
 
 import javax.persistence.Entity;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 
 /**
@@ -13,7 +14,7 @@ import javax.persistence.Entity;
  * @author Asus
  */
 @Entity
-public class User {
+public class User extends AbstractPersistable<Long>{
     
 
     private String username;
