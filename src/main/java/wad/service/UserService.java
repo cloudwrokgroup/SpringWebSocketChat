@@ -55,6 +55,7 @@ public class UserService {
         for(User u : users.values()){
             if(user.getIp().equals(u.getIp())){
                 user.setUsername(u.getUsername());
+                user.setPrivateKey(u.getPrivateKey());
                 break;
             }
             if(user.getUsername().equals(u.getUsername())){

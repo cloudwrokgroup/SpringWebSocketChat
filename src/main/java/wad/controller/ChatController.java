@@ -51,7 +51,9 @@ public class ChatController {
             return "redirect:/login/error/1";
         if(user.getUsername().length()<2||user.getUsername().length()>20)
             return "redirect:/login/error/2";
-        user.setPrivateKey(UUID.randomUUID().toString());
+        System.out.println("Miksi: " + user.getPrivateKey());
+        if(user.getPrivateKey()==null)
+            user.setPrivateKey(UUID.randomUUID().toString());
         this.listener.addUser(user);
         model.addAttribute("channel", channel);
         model.addAttribute("username", user.getUsername());

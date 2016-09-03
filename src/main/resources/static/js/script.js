@@ -5,6 +5,13 @@
                 var pkey = $("#pkey").html();
                 var channel = /*[[${channel}]]*/ "default";
                 var time = "123";
+                
+                var msgSound = new Audio('/sound/sms1.mp3');
+                var newMsg = 0;
+                var documentTitle = "Chatti";
+                document.title = documentTitle;
+                
+
                 // messages defined in websocket config
                 client = Stomp.over(new SockJS('/register'));
                 client.connect({}, function (frame) {
@@ -24,7 +31,7 @@
                 
 
                 function send() {
-                    if(document.getElementById('message').value.length>0){
+                    if(document.getElementById('message').value.match(/\S/)){
                         var imgName = 'default';
 
                         client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
@@ -101,6 +108,7 @@
                         paragraph.appendChild(linkElement);
                         paragraph.appendChild(document.createElement('p'));
                         document.getElementById("file").value = "";
+                        
                         if(document.getElementById("file").disabled == true){
                             if(message.username==username){
                                 document.getElementById("file").disabled = false;
@@ -122,11 +130,12 @@
                             paragraph.appendChild(tNode);
                         }
                     });
+                    
                     return paragraph; 
                 }
                 function displayMessage(message) {
                     var paragraph2 = buildMessage(message);
-                    var paragraph1 = document.createElement("p");
+                    var paragraph1 = document.createElement("b");
                     paragraph1.appendChild(document.createTextNode(message.time + ': ' + message.username + ': '));
                     
                     var oneMsgDiv = document.createElement('div');
@@ -137,6 +146,13 @@
                     document.getElementById("messages").appendChild(oneMsgDiv);
                     var objDiv = document.getElementById("messages");
                     objDiv.scrollTop = objDiv.scrollHeight;
+                    if(!vis()){
+                        newMsg = 1;
+                        document.title = '[UUSI VIESTI]';
+                    }
+                    if(message.username!=username){
+                        msgSound.play();
+                    }
                 }
                 
                 function displayUsers(users){
@@ -173,7 +189,7 @@
                 
                 setTimeout(function(){
                     init();
-                },500);
+                },1000);
                 
                 
                 function sleep(milliseconds) {
@@ -185,6 +201,34 @@
                     }
                 }
                 
+
+                
+                var vis = (function(){
+                    var stateKey, eventKey, keys = {
+                        hidden: "visibilitychange",
+                        webkitHidden: "webkitvisibilitychange",
+                        mozHidden: "mozvisibilitychange",
+                        msHidden: "msvisibilitychange"
+                    };
+                    for (stateKey in keys) {
+                        if (stateKey in document) {
+                            eventKey = keys[stateKey];
+                            break;
+                        }
+                    }
+                    return function(c) {
+                        if (c) document.addEventListener(eventKey, c);
+                        return !document[stateKey];
+                    }
+                })();
+                vis(function(){ 
+                    if(newMsg==1){
+                        if(vis()){
+                            document.title=documentTitle;;
+                            newMsg=0;
+                        }
+                    }
+                });
                 
 
                 
