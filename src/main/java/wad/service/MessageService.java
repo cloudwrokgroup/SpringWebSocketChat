@@ -27,7 +27,7 @@ public class MessageService {
     }
 
     // lähettää viestejä 10 sekunnin välein default-kanavalle
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 600000)
     public void send() {
     this.template.convertAndSend("/channel/default", rasisti.getMessage());
     }
