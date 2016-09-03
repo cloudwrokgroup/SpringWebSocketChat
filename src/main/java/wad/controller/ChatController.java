@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,9 +51,11 @@ public class ChatController {
             return "redirect:/login/error/1";
         if(user.getUsername().length()<2||user.getUsername().length()>20)
             return "redirect:/login/error/2";
+        user.setPrivateKey(UUID.randomUUID().toString());
         this.listener.addUser(user);
         model.addAttribute("channel", channel);
         model.addAttribute("username", user.getUsername());
+        model.addAttribute("pkey", user.getPrivateKey());
         
         return "chat";
     }
@@ -97,15 +100,21 @@ public class ChatController {
     public void handleMessage(Message message) throws Exception {
         String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         message.setTime(timeStamp);
-        System.out.println("MSG user: " + message.getUsername());
-        messageService.addMessage(message);
-        userService.getUsers();
-        System.out.println("apuva");
+        System.out.println("MSG user: " + message.getUsername() + " : " + message.getPkey());
+        User u =userService.getUserByName(message.getUsername());
+        if(u!=null){
+            if(message.getPkey().equals(u.getPrivateKey())){
+                message.setPkey("0");
+                messageService.addMessage(message);
+                userService.getUsers();
+            }
+        }
     }
     @MessageMapping("/getusers")
     public void loadUsers()throws Exception{
         userService.getUsers();
     }
+    
     @MessageMapping("/close")
     public void closeChat(String name)throws Exception{
         System.out.println("Cloussaa se");                

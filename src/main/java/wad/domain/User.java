@@ -20,6 +20,8 @@ public class User extends AbstractPersistable<Long>{
     private String username;
     
     private String ip;
+    
+    private String privateKey;
 
     public User() {
     }
@@ -39,7 +41,13 @@ public class User extends AbstractPersistable<Long>{
     public void setIp(String ip) {
         this.ip = ip;
     }
-    
-    
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
     
 }

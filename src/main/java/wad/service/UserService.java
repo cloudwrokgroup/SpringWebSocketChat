@@ -33,6 +33,15 @@ public class UserService {
         }
         this.template.convertAndSend("/users", userNames);
     }
+    public User getUserByName(String name){
+        User r = null;
+        for(User u : users.values()){
+            if(u.getUsername().equals(name)){
+                r=u;
+            }
+        }
+        return r;
+    }
     
     //for listener
     public void addUser(String id, User user){

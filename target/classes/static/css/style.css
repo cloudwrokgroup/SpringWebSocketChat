@@ -1,7 +1,6 @@
 body{
     background-color: rgb(1,95,107)!important;
     height: 100%!important;
-    overflow-x: hidden!imprtant;
 }
 #error{
     color: red;
@@ -140,7 +139,7 @@ background: rgb(217, 217, 217);
 
                 
 }
-#username{
+.hidden{
     visibility: hidden;
     
 }

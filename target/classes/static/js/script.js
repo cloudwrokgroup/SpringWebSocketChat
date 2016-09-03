@@ -2,6 +2,7 @@
                 // not a secure way to handle this, but works as a demo
                 //var username = /*[[${username}]]*/ document.getElementById("username").innerHTML;
                 var username = /*[[${username}]]*/ $("#username").html();
+                var pkey = $("#pkey").html();
                 var channel = /*[[${channel}]]*/ "default";
                 var time = "123";
                 // messages defined in websocket config
@@ -26,7 +27,7 @@
                     if(document.getElementById('message').value.length>0){
                         var imgName = 'default';
 
-                        client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
+                        client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
                         document.getElementById('message').value = "";
                     }
                 }
@@ -42,7 +43,7 @@
                             
                             imgName = $("#file").val().split('\\').pop();
                             console.log("PAPSDPASD: " + imgName); 
-                            client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName}));
+                            client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
                             document.getElementById("file").disabled = true; 
                             document.getElementById("action-info").textContent = 'Lähetetään kuvaa..';
                         }
