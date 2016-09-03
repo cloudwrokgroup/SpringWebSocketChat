@@ -48,6 +48,7 @@ public class Poliitikko {
         msg.setUsername("TS");
         String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         msg.setTime(timeStamp);
+        
         return msg;
     }
 }

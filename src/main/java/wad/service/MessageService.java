@@ -14,6 +14,9 @@ public class MessageService {
     
     @Autowired 
     private RoBotti robo;
+    
+    @Autowired 
+    RacistBot rasisti;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -26,11 +29,16 @@ public class MessageService {
     // lähettää viestejä 10 sekunnin välein default-kanavalle
     @Scheduled(fixedDelay = 10000)
     public void send() {
-        this.template.convertAndSend("/channel/default", poliitikko.getMessage());
+    this.template.convertAndSend("/channel/default", rasisti.getMessage());
     }
+  /*  @Scheduled(fixedDelay = 10000)
+    public void send() {
+        System.out.println("Poliitiko lähettää");
+        this.template.convertAndSend("/channel/default", poliitikko.getMessage());
+    }*/
     
-    @Scheduled(fixedDelay=20000)
+  /*  @Scheduled(fixedDelay=20000)
     public void sendM(){
         this.template.convertAndSend("/channel/default",robo.getMessage());
-    }
+    }*/
 }
