@@ -26,8 +26,13 @@ public class AdminBot {
     }
     @Scheduled(fixedDelay = 900000)
     public void clearImages() throws IOException{
-        FileUtils.cleanDirectory(new File(uploadPath)); 
-        System.out.println("Kuvat poistettu");
+        if(uploadPath!=null){
+            int count = new File(uploadPath).list().length;
+            if(count>=3){
+                FileUtils.cleanDirectory(new File(uploadPath)); 
+                System.out.println("Kuvia poistettu "+count);
+            }
+        }
     }
 
     public String getUploadPath() {

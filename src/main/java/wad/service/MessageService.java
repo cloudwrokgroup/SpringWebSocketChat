@@ -49,7 +49,7 @@ public class MessageService {
     
     @PostConstruct
     public void init(){
-        userService.addUser("ad112mi112nbot", new User(adminBot.getName()));
+        //userService.addUser("ad112mi112nbot", new User(adminBot.getName()));
     }
     
     
