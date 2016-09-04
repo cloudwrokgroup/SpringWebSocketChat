@@ -53,7 +53,7 @@
                                 sleep(500);
                                 if(countx>20){
                                     uploadSucces = false;
-                                    window.alert("Kuvan lähetys ei onnistunut. Kuvan täytyy olla muotoa .jpeg tai .png ja alle 2mt")
+                                    window.alert("Kuvan lähetys ei onnistunut. Kuvan täytyy olla muotoa .jpeg, .jpg, .gif tai .png ja alle 2mt")
                                     break;
                                 }
                                 countx++;

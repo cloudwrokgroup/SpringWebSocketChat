@@ -81,7 +81,7 @@ public class ChatController {
         System.out.println("Kuvan tiedot: "+file.getContentType() +" " +file.getBytes().length);
 
         if (!file.isEmpty()&&file.getBytes().length<2000000) {
-            if(file.getContentType().equals("image/png")||file.getContentType().equals("image/jpeg")){
+            if(file.getContentType().equals("image/gif")||file.getContentType().equals("image/png")||file.getContentType().equals("image/jpeg")){
                 try {
                     String uploadsDir = "/uploads/";
                     String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);
