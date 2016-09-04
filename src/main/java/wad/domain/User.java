@@ -25,6 +25,9 @@ public class User extends AbstractPersistable<Long>{
 
     public User() {
     }
+    public User(String name){
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;

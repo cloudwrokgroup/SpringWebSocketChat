@@ -40,11 +40,13 @@ public class RacistBot {
         "Miksi Kanadassa ei ole neekereitä? Koska ne on kaikki puristettu jääkiekoiksi.",
         "Mitä eroa on neekerillä ja ilotulitusraketilla? Neekereitä saa ampuu ennen kahtatoista.",
         "Mitä eroa on neekerillä ja sipulilla? Neekeriä viipaloidessa ei tuu itku silmään."};
+        
+        private String name = "RasistiBot";
 
     public Message getMessage() {
         Message msg = new Message();
         msg.setContent(lentavatLauseet[new Random().nextInt(lentavatLauseet.length)]);
-        msg.setUsername("RasistiBot");
+        msg.setUsername(name);
         String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         msg.setTime(timeStamp);
         

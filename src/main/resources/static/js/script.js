@@ -35,24 +35,37 @@
                         var imgName = 'default';
 
                         client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
-                        document.getElementById('message').value = "";
+                        document.getElementById('message').value = '';
                     }
                 }
                 
                 document.getElementById("file").onchange = function() {
-                    if(confirm("Haluatko varmasti lähettää seuraavan kuvan: " +  $("#file").val().split('\\').pop())){
+                    var imageName = $("#file").val().split('\\').pop();
+                    if(confirm("Haluatko varmasti lähettää seuraavan kuvan: " +  imageName)){
                         var imgName = 'default';
+                        var uploadSucces = true;
                         if($("#file").val()!= ''){
                             $("#file").upload("/photo",function(success){
-                                //Ei toimi vielä, en saa ajax http vastausta ulos, onnistuiko kuvan lähetys
                             });
-                            
-                            
-                            imgName = $("#file").val().split('\\').pop();
-                            console.log("PAPSDPASD: " + imgName); 
-                            client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
-                            document.getElementById("file").disabled = true; 
-                            document.getElementById("action-info").textContent = 'Lähetetään kuvaa..';
+                            var countx = 0;
+                            while(urlExists('/uploads/'+imageName)==false){
+                                console.log("oottaa");
+                                sleep(500);
+                                if(countx>20){
+                                    uploadSucces = false;
+                                    window.alert("Kuvan lähetys ei onnistunut. Kuvan täytyy olla muotoa .jpeg tai .png ja alle 2mt")
+                                    break;
+                                }
+                                countx++;
+                            }
+                            if(uploadSucces){
+                                console.log("löytyi");
+                                imgName = $("#file").val().split('\\').pop();
+                                console.log("PAPSDPASD: " + imgName); 
+                                client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
+                                document.getElementById("file").disabled = true; 
+                                document.getElementById("action-info").textContent = 'Lähetetään kuvaa..';
+                            }
                         }
                     }
                 };
@@ -92,16 +105,7 @@
                         linkElement.href = '/uploads/'+message.image;
                         linkElement.target = 'blank';
                         paragraph.appendChild(document.createElement('p'));
-                        var countx = 0;
-                        while(urlExists('/uploads/'+message.image)==false){
-                            console.log("oottaa");
-                            sleep(500);
-                            if(countx>20){
-                                break;
-                            }
-                            countx++;
-                        }
-                        console.log("löytyi");
+
                         
                         linkElement.appendChild(img);
                         

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import wad.WebSocketDisconnectListener;
 import wad.domain.Message;
 import wad.domain.User;
+import wad.service.AdminBot;
 import wad.service.MessageService;
 import wad.service.UserService;
 
@@ -40,6 +41,9 @@ public class ChatController {
     
     @Autowired
     private HttpServletRequest request;
+    
+    @Autowired 
+    private AdminBot adminBot;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request,Model model, @RequestParam("name") String username, @RequestParam("channel") String channel) {
@@ -73,7 +77,6 @@ public class ChatController {
     
     @RequestMapping(value="/photo")
     public ResponseEntity<String> photo(MultipartFile file) throws IOException{
-        System.out.println("PHOTO TULI");
         
         System.out.println("Kuvan tiedot: "+file.getContentType() +" " +file.getBytes().length);
 
@@ -85,6 +88,8 @@ public class ChatController {
                     if(! new File(realPathtoUploads).exists()){
                         new File(realPathtoUploads).mkdir();
                     }
+                    if(adminBot.getUploadPath()==null)
+                        adminBot.setUploadPath(realPathtoUploads);
                     File dest = new File(realPathtoUploads + file.getOriginalFilename());
                     file.transferTo(dest);
                     return new ResponseEntity<String>(HttpStatus.OK);
@@ -108,6 +113,11 @@ public class ChatController {
             if(message.getPkey().equals(u.getPrivateKey())){
                 message.setPkey("0");
                 messageService.addMessage(message);
+                if(message.getContent().trim().length()>1){
+                    if(message.getContent().trim().charAt(0)=='/'){
+                        messageService.handleCommand(message);
+                    }
+                }
                 userService.getUsers();
             }
         }

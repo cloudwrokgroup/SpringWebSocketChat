@@ -8,4 +8,6 @@ wad\service\MessageService.class
 wad\config\WebSocketConfiguration.class
 wad\WebSocketDisconnectListener.class
 wad\domain\User.class
+wad\service\AdminBot.class
 wad\Chatti.class
+wad\service\RacistBot.class
