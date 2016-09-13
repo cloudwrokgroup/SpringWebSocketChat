@@ -13,8 +13,8 @@
                 
                 var sketchpad = new Sketchpad({
                     element: '#sketchpad',
-                    width: 400,
-                    height: 200
+                    width: 800,
+                    height: 400
                   });
                 
 
@@ -82,11 +82,8 @@
                      });
                      if(uploadSuccess(imageName)){
                          sendMessage(imageName);
-                         sketchpad = new Sketchpad({
-                            element: '#sketchpad',
-                            width: 400,
-                            height: 200
-                          });
+                         emptycanvas();
+                          hidecanvas();
                      }
                 }
 
@@ -257,7 +254,23 @@
                 
                 
                 
-                
+                function showCanvas(){
+                    document.getElementById("canvasdiv").className = "";
+                    document.getElementById("messages").className = "half";
+                    document.getElementById("userbox").className = "half";
+                }
+                function hidecanvas(){
+                    document.getElementById("canvasdiv").className = "hidden";
+                    document.getElementById("messages").className = "full";
+                    document.getElementById("userbox").className = "full";
+                }
+                function emptycanvas(){
+                    sketchpad = new Sketchpad({
+                    element: '#sketchpad',
+                    width: 800,
+                    height: 400
+                    });
+                }
                 
                 
                 

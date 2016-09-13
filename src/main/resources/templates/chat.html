@@ -14,13 +14,18 @@
         
             <div class="box">
                
-                    <div id="messages">
+                    <div class="full" id="messages">
                         <p th:each="message: ${messages}" th:text="${message}"></p>
                     </div>
-                    <div id="userbox">
+                    <div class="full" id="userbox">
                         
                     </div>
-                
+                    <div id="canvasdiv" class="hidden">
+                            <canvas class="sketchpad" id="sketchpad"></canvas>
+                            <input type="button" value="Lähetä" onclick="sendcanvas()"></input>   
+                            <input type="button" value="Tyhjennä" onclick="emptycanvas()"></input> 
+                            <input type="button" value="Piilota" onclick="hidecanvas()"></input> 
+                    </div>
                 <div id="messagebox">
                     <div id="helpdiv"><input class="mySendButton" type="button" onclick="send();" value=">>>"/></div>
                         
@@ -28,9 +33,9 @@
                         <div>    
                         <label id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
                         </div>
+                        <input type="button" onclick="showCanvas()" value="piirrä kuva"></input>
                         <span id="action-info"></span>
-                        <canvas class="sketchpad" id="sketchpad"></canvas>
-                         <input type="button" value="send" onclick="sendcanvas()"></input>   
+
                     <span class="hidden"  id="username" th:text="${username}"></span>  
                     <span class="hidden" id="pkey" th:text="${pkey}"></span>
                 </div>

@@ -24,6 +24,9 @@ body{
 #sketchpad{
     background: white;
 }
+#canvasdiv{
+    
+}
 #oneMsgDiv{
     background: rgb(217, 217, 217);
     padding-top: 0.3em;
@@ -110,10 +113,9 @@ body{
 #messages{
                 width:85%;
                 max-width: 120em;
-                height: 80vh; 
+                
                 overflow-y: scroll;
                 float:left;
-
 
 -webkit-border-top-left-radius: 30px;
 -moz-border-radius-topleft: 30px;
@@ -121,6 +123,13 @@ border-top-left-radius: 30px;
 
     background: rgb(217, 217, 217);
 }
+.full{
+    height: 80vh; 
+}
+.half{
+   height: 40vh;  
+}
+
 .box{
     padding: 3em;
     height: 100%;
@@ -129,7 +138,6 @@ border-top-left-radius: 30px;
                 margin-bottom: -2em;
                 width:15%;
                 max-width: 20em;
-                height: 80vh; 
                 overflow-y: scroll;
                 padding-left: 5px;
                 overflow:hidden;
@@ -162,4 +170,7 @@ background: rgb(217, 217, 217);
     width:100%;
     margin-bottom: -0.5em;
     height: 1em;
+}
+#box{
+    position: relative;
 }
