@@ -11,6 +11,12 @@
                 var documentTitle = "Chatti";
                 document.title = documentTitle;
                 
+                var sketchpad = new Sketchpad({
+                    element: '#sketchpad',
+                    width: 400,
+                    height: 200
+                  });
+                
 
                 // messages defined in websocket config
                 client = Stomp.over(new SockJS('/register'));
@@ -38,37 +44,52 @@
                         document.getElementById('message').value = '';
                     }
                 }
-                
-                document.getElementById("file").onchange = function() {
+                function sendImage(){
                     var imageName = $("#file").val().split('\\').pop();
-                    if(confirm("Haluatko varmasti lähettää seuraavan kuvan: " +  imageName)){
-                        var imgName = 'default';
-                        var uploadSucces = true;
+                    if(confirm("Haluatko varmasti lÃ¤hettÃ¤Ã¤ seuraavan kuvan: " +  imageName)){
                         if($("#file").val()!= ''){
                             $("#file").upload("/photo",function(success){
                             });
-                            var countx = 0;
-                            while(urlExists('/uploads/'+imageName)==false){
-                                console.log("oottaa");
-                                sleep(500);
-                                if(countx>20){
-                                    uploadSucces = false;
-                                    window.alert("Kuvan lähetys ei onnistunut. Kuvan täytyy olla muotoa .jpeg, .jpg, .gif tai .png ja alle 2mt")
-                                    break;
-                                }
-                                countx++;
-                            }
-                            if(uploadSucces){
-                                console.log("löytyi");
-                                imgName = $("#file").val().split('\\').pop();
-                                console.log("PAPSDPASD: " + imgName); 
-                                client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':imgName,'pkey':pkey}));
-                                document.getElementById("file").disabled = true; 
-                                document.getElementById("action-info").textContent = 'Lähetetään kuvaa..';
+                            if(uploadSuccess(imageName)){
+                                sendMessage(imageName);
                             }
                         }
                     }
+                }
+                document.getElementById("file").onchange = function() {
+                    sendImage();  
                 };
+                function sendcanvas(){
+                    var imageData = document.getElementById("sketchpad").toDataURL("image/png")
+                    var imageName = makeId()+ ".png";
+                     $.ajax({
+                         url:'/photo',
+                         data:{cname: imageName,imageBase64: imageData},
+                         type: 'post',
+                         dataType: 'json',
+                         timeout: 10000,
+                         async: false,
+                         error: function(){
+                             console.log("WOOPS");
+                         },
+                         success: function(res){
+                             if(res.ret==0){
+                                 console.log("SUCCESS");
+                             }else{
+                                 console.log("FAIL : " + res.msg);
+                             }
+                         }
+                     });
+                     if(uploadSuccess(imageName)){
+                         sendMessage(imageName);
+                         sketchpad = new Sketchpad({
+                            element: '#sketchpad',
+                            width: 400,
+                            height: 200
+                          });
+                     }
+                }
+
                 
                 function init(){
                     client.send("/ws/getusers");
@@ -234,7 +255,41 @@
                     }
                 });
                 
+                
+                
+                
+                
+                
+                
+                
+         //HELP FUNCTIONS
+        function makeId(){
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+            for( var i=0; i < 5; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return text;
+        }
+        function sendMessage(iName){
+            client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': document.getElementById('message').value, 'time':time,'image':iName,'pkey':pkey}));
+            document.getElementById("file").disabled = true; 
+            document.getElementById("action-info").textContent = 'LÃ¤hetetÃ¤Ã¤n kuvaa..';
+        }
+        
+        function uploadSuccess(iName){
+            var countx = 0;
+            while(urlExists('/uploads/'+iName)==false){
+                console.log("oottaa");
+                sleep(500);
+                if(countx>20){
+                    return false;
+                }
+             countx++;
+            }
+            return true;
+        }
                 
 
 

@@ -26,9 +26,11 @@
                         
                         <textArea maxlength="300" name="message" id="message" autofocus="true"></textArea>
                         <div>    
-                        <label id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg" style="display: none;"/></label> 
+                        <label id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
                         </div>
                         <span id="action-info"></span>
+                        <canvas class="sketchpad" id="sketchpad"></canvas>
+                         <input type="button" value="send" onclick="sendcanvas()"></input>   
                     <span class="hidden"  id="username" th:text="${username}"></span>  
                     <span class="hidden" id="pkey" th:text="${pkey}"></span>
                 </div>
@@ -41,9 +43,12 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         
-
+        <script type="text/javascript" src="../../js/sketchpad/lib/sketchpad.js" th:src="@{/js/sketchpad/lib/sketchpad.js}"></script>
+        <script type="text/javascript" src="../../js/sketchpad/scripts/sketchpad.js" th:src="@{/js/sketchpad/scripts/sketchpad.js}"></script>
+        
         <script type="text/javascript" src="../../js/upload.js" th:src="@{/js/upload.js}"></script>
         <script type="text/javascript" src="../../js/script.js" th:src="@{/js/script.js}"></script>
+
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>

@@ -21,6 +21,9 @@ body{
     width: 85%;
     margin-top: -0.2em;
 }
+#sketchpad{
+    background: white;
+}
 #oneMsgDiv{
     background: rgb(217, 217, 217);
     padding-top: 0.3em;

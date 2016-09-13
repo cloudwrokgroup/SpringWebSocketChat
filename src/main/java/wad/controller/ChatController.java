@@ -1,5 +1,6 @@
 package wad.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,12 @@ import wad.domain.User;
 import wad.service.AdminBot;
 import wad.service.MessageService;
 import wad.service.UserService;
+// Needed Imports
+import java.io.ByteArrayInputStream;
+import java.util.List;
+import javax.imageio.ImageIO;
+import sun.misc.BASE64Decoder;
+import wad.service.ImageService;
 
 @Controller
 public class ChatController {
@@ -44,6 +52,9 @@ public class ChatController {
     
     @Autowired 
     private AdminBot adminBot;
+    
+    @Autowired
+    private ImageService imageService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request,Model model, @RequestParam("name") String username, @RequestParam("channel") String channel) {
@@ -76,27 +87,18 @@ public class ChatController {
     }
     
     @RequestMapping(value="/photo")
-    public ResponseEntity<String> photo(MultipartFile file) throws IOException{
-        
-        System.out.println("Kuvan tiedot: "+file.getContentType() +" " +file.getBytes().length);
+    public ResponseEntity<String> photo(@RequestParam(required=false) MultipartFile file, @RequestParam(required=false, value="imageBase64")String imageBase64,@RequestParam(required=false, value="cname")String cname) throws IOException{
+        System.out.println("Cname: " + cname);
+        this.imageService.setUploadPath(request.getServletContext().getRealPath("/uploads/"));
 
-        if (!file.isEmpty()&&file.getBytes().length<2000000) {
-            if(file.getContentType().equals("image/gif")||file.getContentType().equals("image/png")||file.getContentType().equals("image/jpeg")){
-                try {
-                    String uploadsDir = "/uploads/";
-                    String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);
-                    if(! new File(realPathtoUploads).exists()){
-                        new File(realPathtoUploads).mkdir();
-                    }
-                    if(adminBot.getUploadPath()==null)
-                        adminBot.setUploadPath(realPathtoUploads);
-                    File dest = new File(realPathtoUploads + file.getOriginalFilename());
-                    file.transferTo(dest);
-                    return new ResponseEntity<String>(HttpStatus.OK);
-                }catch(Exception e){}
-            }
+        System.out.println("Kuva: " + imageBase64);
+        if(imageBase64!=null){
+            imageService.addDrawing(cname, imageBase64);
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }else{
+            imageService.addImage(file);
+            return new ResponseEntity<String>(HttpStatus.OK);
         }
-        return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         
     }
     
