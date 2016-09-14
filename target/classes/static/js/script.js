@@ -273,6 +273,15 @@
                     height: canvasHeight
                     });
                 }
+                function canvascolor(){
+                    sketchpad.color = document.getElementById("canvascolor").value;
+                }
+                function cancelcanvas(){
+                    sketchpad.undo();
+                }
+                function redocanvas(){
+                    sketchpad.redo();
+                }
                 document.getElementById("canvasfile").onchange = function(e) {
                       var context = document.getElementById('sketchpad').getContext('2d');
                       var imageObj = new Image();

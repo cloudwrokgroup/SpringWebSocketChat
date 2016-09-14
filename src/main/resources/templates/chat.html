@@ -23,9 +23,16 @@
                     <div id="canvasdiv" class="hidden">
                             <canvas class="sketchpad" id="sketchpad"></canvas>
                             <div id="canvasbuttons"><ul>
-                                <label id="canvassetbtn" class="btn btn-default btn-file">Aseta kuva<input type="file" name="canvasfile" id="canvasfile" accept=".png,.jpeg,.jpg," style="display: none;"/></label>                                <li><input class="btn btn-default btn-file" type="button" value="Lähetä" onclick="sendcanvas()"></input>  </li> 
+                                    <li><input type="color" id="canvascolor" onchange="canvascolor()"></input></li>
+                                    <li><label id="canvassetbtn" class="btn btn-default btn-file">Aseta kuva<input type="file" name="canvasfile" id="canvasfile" accept=".png,.jpeg,.jpg," style="display: none;"/></label> </li>                               
                                 <li><input class="btn btn-default btn-file" type="button" value="Tyhjennä" onclick="emptycanvas()"></input> </li>
                                 <li><input class="btn btn-default btn-file" type="button" value="Piilota" onclick="hidecanvas()"></input> </li>
+                                        <li>
+                                            <input class="btn btn-default btn-file" type="button" value="Undo" onclick="cancelcanvas()"></input>
+                                             <input class="btn btn-default btn-file" type="button" value="Redo" onclick="redocanvas()"></input>
+                                        </li>
+                                <li></li>
+                                <li><input class="btn btn-default btn-file" type="button" value="Lähetä" onclick="sendcanvas()"></input>  </li>  
                                 </ul></div>
                     </div>
                 <div id="messagebox">
