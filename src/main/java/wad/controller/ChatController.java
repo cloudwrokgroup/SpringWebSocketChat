@@ -1,11 +1,7 @@
 package wad.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
@@ -17,7 +13,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +23,7 @@ import wad.domain.User;
 import wad.service.AdminBot;
 import wad.service.MessageService;
 import wad.service.UserService;
-// Needed Imports
-import java.io.ByteArrayInputStream;
-import java.util.List;
-import javax.imageio.ImageIO;
-import sun.misc.BASE64Decoder;
+
 import wad.service.ImageService;
 
 @Controller

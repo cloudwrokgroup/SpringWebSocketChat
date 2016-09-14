@@ -13,11 +13,7 @@ import wad.domain.User;
 public class MessageService {
 
     
-    @Autowired
-    private Poliitikko poliitikko;
-    @Autowired 
-    private RoBotti robo;
-    @Autowired 
+
     private RacistBot rasisti;
     @Autowired
     private AdminBot adminBot;
@@ -43,6 +39,15 @@ public class MessageService {
             adminBot.clearImages();
     }
     
+    public void userLogin(String user){
+        System.out.println("userLogin tuli");
+        this.template.convertAndSend("/channel/default", adminBot.getLoginMessage(user));
+    }
+    public void userLogout(String user){
+        System.out.println("userLogout tuli");
+        this.template.convertAndSend("/channel/default", adminBot.getLogoutMessage(user));
+    }
+    
     public void send() {
         this.template.convertAndSend("/channel/default", rasisti.getMessage());
     }
@@ -53,14 +58,5 @@ public class MessageService {
     }
     
     
-  /*  @Scheduled(fixedDelay = 10000)
-    public void send() {
-        System.out.println("Poliitiko lähettää");
-        this.template.convertAndSend("/channel/default", poliitikko.getMessage());
-    }*/
-    
-  /*  @Scheduled(fixedDelay=20000)
-    public void sendM(){
-        this.template.convertAndSend("/channel/default",robo.getMessage());
-    }*/
+  
 }
