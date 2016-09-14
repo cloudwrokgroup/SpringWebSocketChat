@@ -22,18 +22,20 @@
                     </div>
                     <div id="canvasdiv" class="hidden">
                             <canvas class="sketchpad" id="sketchpad"></canvas>
-                            <input type="button" value="Lähetä" onclick="sendcanvas()"></input>   
-                            <input type="button" value="Tyhjennä" onclick="emptycanvas()"></input> 
-                            <input type="button" value="Piilota" onclick="hidecanvas()"></input> 
+                            <div id="canvasbuttons"><ul>
+                                <label id="canvassetbtn" class="btn btn-default btn-file">Aseta kuva<input type="file" name="canvasfile" id="canvasfile" accept=".png,.jpeg,.jpg," style="display: none;"/></label>                                <li><input class="btn btn-default btn-file" type="button" value="Lähetä" onclick="sendcanvas()"></input>  </li> 
+                                <li><input class="btn btn-default btn-file" type="button" value="Tyhjennä" onclick="emptycanvas()"></input> </li>
+                                <li><input class="btn btn-default btn-file" type="button" value="Piilota" onclick="hidecanvas()"></input> </li>
+                                </ul></div>
                     </div>
                 <div id="messagebox">
                     <div id="helpdiv"><input class="mySendButton" type="button" onclick="send();" value=">>>"/></div>
                         
                         <textArea maxlength="300" name="message" id="message" autofocus="true"></textArea>
                         <div>    
-                        <label id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
+                        <label style="float:left;" id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
                         </div>
-                        <input type="button" onclick="showCanvas()" value="piirrä kuva"></input>
+                        <input type="button" onclick="showCanvas()" value="Piirrä kuva" class="btn btn-default btn-file"></input>
                         <span id="action-info"></span>
 
                     <span class="hidden"  id="username" th:text="${username}"></span>  

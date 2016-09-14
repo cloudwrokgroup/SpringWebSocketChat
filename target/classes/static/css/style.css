@@ -21,12 +21,18 @@ body{
     width: 85%;
     margin-top: -0.2em;
 }
-#sketchpad{
-    background: white;
-}
 #canvasdiv{
     
 }
+#canvasbuttons{
+    margin-top: 3em;
+}
+#sketchpad{
+    background: white;
+    margin-top: -0.5em;
+    float:left;
+}
+
 #oneMsgDiv{
     background: rgb(217, 217, 217);
     padding-top: 0.3em;

@@ -11,10 +11,12 @@
                 var documentTitle = "Chatti";
                 document.title = documentTitle;
                 
+                var canvasWidth = 800;
+                var canvasHeight = 400;
                 var sketchpad = new Sketchpad({
                     element: '#sketchpad',
-                    width: 800,
-                    height: 400
+                    width: canvasWidth,
+                    height: canvasHeight
                   });
                 
 
@@ -267,10 +269,29 @@
                 function emptycanvas(){
                     sketchpad = new Sketchpad({
                     element: '#sketchpad',
-                    width: 800,
-                    height: 400
+                    width: canvasWidth,
+                    height: canvasHeight
                     });
                 }
+                document.getElementById("canvasfile").onchange = function(e) {
+                      var context = document.getElementById('sketchpad').getContext('2d');
+                      var imageObj = new Image();
+                      imageObj.onload = function() {
+                      if(canvasHeight>imageObj.height){
+                        context.drawImage(imageObj,10,10, imageObj.width, imageObj.height);
+                      }else{
+                           var iWidth = imageObj.width;
+                           var iHeight = imageObj.height;
+                           while(iHeight>canvasHeight){
+                               iWidth = iWidth/2;
+                               iHeight = iHeight/2;
+                           }
+                           context.drawImage(imageObj,10,10, iWidth, iHeight);
+                       }
+                      };
+                      imageObj.src =  URL.createObjectURL(e.target.files[0]);
+
+                };
                 
                 
                 
