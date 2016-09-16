@@ -1,3 +1,5 @@
+var recordSent = false;
+
 function restore(){
   $("#record, #live").removeClass("disabled");
   $("#pause").replaceWith('<a class="button one" id="pause">Pause</a>');
@@ -58,7 +60,18 @@ $(document).ready(function(){
       };
       draw();
     });
+    recordSent = false;
     $(this).replaceWith('<input type="button" value="STOP" id="save" class="btn btn-default btn-file"></input>');
+    var xcount = 4; document.getElementById("action-info").innerHTML = 5;
+    var myTimer = setInterval(function(){ 
+        if(!recordSent)
+            document.getElementById("action-info").innerHTML = xcount;
+        if(xcount==0){
+            sendRecord();
+            clearInterval(myTimer);
+        }
+        xcount--;
+    }, 1000);
   });
   
   $(document).on("click", "#pause:not(.disabled)", function(){
@@ -112,33 +125,40 @@ $(document).ready(function(){
   });
   
   $(document).on("click", "#save:not(.disabled)", function(){
-      
-     var conf = confirm("Haluatko lähettää äänitteen?");
-     if(conf){
-        Fr.voice.export(function(blob){
-          var formData = new FormData();
-
-          var recName = makeId();
-          formData.append('file', blob, recName+'.mp3');
-
-
-          $.ajax({
-            url: "/sound",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(url) {
-              $("#audio").attr("src", url);
-              $("#audio")[0].play();
-              client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': 'Lähetti äänitteen.', 'time': time, 'image': 'default','record':recName , 'pkey': pkey}));
-              hideRecord();
-            }
-          });
-        }, "blob");
-     }
-    restore();
-    document.getElementById("recording").className = "hidden";
-    $(this).replaceWith('<input type="button" value="Nauhoita äänite" id="record" class="btn btn-default btn-file"></input>');
+      sendRecord();
   });
+  function sendRecord(){
+      if(!recordSent){
+        var conf = confirm("Haluatko lähettää äänitteen?");
+        if(conf){
+           Fr.voice.export(function(blob){
+             var formData = new FormData();
+
+             var recName = makeId();
+             formData.append('file', blob, recName+'.mp3');
+
+
+             $.ajax({
+               url: "/sound",
+               type: 'POST',
+               data: formData,
+               contentType: false,
+               processData: false,
+               success: function(url) {
+                 $("#audio").attr("src", url);
+                 $("#audio")[0].play();
+                 client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': 'Lähetti äänitteen.', 'time': time, 'image': 'default','record':recName , 'pkey': pkey}));
+                 hideRecord();
+               }
+             });
+           }, "blob");
+        }
+
+       document.getElementById("recording").className = "hidden";
+       $("#save").replaceWith('<input type="button" value="Nauhoita äänite" id="record" class="btn btn-default btn-file"></input>');
+       document.getElementById("action-info").innerHTML = '';
+       recordSent = true;
+       restore();
+     }
+  }
 });
