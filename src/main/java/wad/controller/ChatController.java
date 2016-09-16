@@ -1,6 +1,7 @@
 package wad.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -93,7 +94,13 @@ public class ChatController {
         
     }
     
-    
+    @RequestMapping(value="/sound")
+    public ResponseEntity<String> sound(@RequestParam(required=false) MultipartFile file) throws IOException{
+        System.out.println("Filu: " + file);
+        File dest = new File(request.getServletContext().getRealPath("/uploads/") + file.getOriginalFilename());
+        file.transferTo(dest);
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 
 
     @MessageMapping("/messages")

@@ -133,6 +133,15 @@ function buildMessage(message) {
             }
         }
     }
+    if(message.record != 'default' && message.record != null){
+        var audio = document.createElement('audio');
+        var audioSource = document.createElement('source');
+        audio.autoplay="true";
+        audioSource.src = '/uploads/' + message.record + ".mp3";
+        audioSource.type = "audio/mp3";
+        audio.appendChild(audioSource);
+        paragraph.appendChild(audio);
+    }
     $.each(msgParts, function (i, word) {
         if (word.indexOf("www.") !== -1 || word.indexOf("http:") !== -1 || word.indexOf("https:") !== -1) {
             var a = document.createElement('a');
@@ -281,7 +290,17 @@ function addImageToCanvas(e){
                 
                 
                 
-                
+//Record
+function showRecord(){
+    document.getElementById("recorddiv").className = "";
+    document.getElementById("messages").className = "half";
+    document.getElementById("userbox").className = "half";
+}
+function hideRecord() {
+    document.getElementById("recorddiv").className = "hidden";
+    document.getElementById("messages").className = "full";
+    document.getElementById("userbox").className = "full";
+}
                 
                 
                 

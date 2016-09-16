@@ -16,6 +16,8 @@ public class Message extends AbstractPersistable<Long>{
     
     private String image;
     
+    private String record;
+    
     private String pkey;
 
     public String getUsername() {
@@ -57,6 +59,16 @@ public class Message extends AbstractPersistable<Long>{
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getRecord() {
+        return record;
+    }
+
+    public void setRecord(String record) {
+        this.record = record;
+    }
+    
+    
 
     public String getPkey() {
         return pkey;

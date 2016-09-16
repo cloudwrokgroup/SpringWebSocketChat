@@ -35,6 +35,18 @@
                                 <li><input class="btn btn-default btn-file" type="button" value="Lähetä" onclick="sendcanvas()"></input>  </li>  
                                 </ul></div>
                     </div>
+                    <div id="recorddiv" class="hidden">
+                        <canvas id="level" height="200" width="500"></canvas>
+                        <audio src="" id="audio"></audio>
+                        <div style="margin:10px;">
+                            <input type="button"  id="record" value="Record"></input>
+                            <input type="button" class="button disabled one" id="pause" value="Pause"></input>
+                            <input type="button" class="button disabled one" id="play" value="Play"></input>
+                            <input type="button" class="button disabled one" id="stop" value="Reset"></input>
+                            <input type="button" onclick="hideRecord()" value="Piilota"></input>
+                            <input type="button" class="button disabled one" id="save" value="Lähetä äänite"></input>
+                        </div>
+                    </div>
                 <div id="messagebox">
                     <div id="helpdiv"><input class="mySendButton" type="button" onclick="send();" value=">>>"/></div>
                         
@@ -43,6 +55,7 @@
                         <label style="float:left;" id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
                         </div>
                         <input type="button" onclick="showCanvas()" value="Piirrä kuva" class="btn btn-default btn-file"></input>
+                        <input type="button" onclick="showRecord()" value="Nauhoita äänite" class="btn btn-default btn-file"></input>
                         <span id="action-info"></span>
 
                     <span class="hidden"  id="username" th:text="${username}"></span>  
@@ -51,14 +64,20 @@
                  
         </div>
 
+    
+        
 
-
+        
         <script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         
         <script type="text/javascript" src="../../js/sketchpad/lib/sketchpad.js" th:src="@{/js/sketchpad/lib/sketchpad.js}"></script>
         <script type="text/javascript" src="../../js/sketchpad/scripts/sketchpad.js" th:src="@{/js/sketchpad/scripts/sketchpad.js}"></script>
+        
+        <script type="text/javascript" src="../../js/record/src/recorder.js" th:src="@{/js/record/src/recorder.js}"></script>
+        <script type="text/javascript" src="../../js/record/src/Fr.voice.js" th:src="@{/js/record/src/Fr.voice.js}"></script>
+        <script type="text/javascript" src="../../js/record/js/app.js" th:src="@{/js/record/js/app.js}"></script>
         
         <script type="text/javascript" src="../../js/upload.js" th:src="@{/js/upload.js}"></script>
         <script type="text/javascript" src="../../js/script.js" th:src="@{/js/script.js}"></script>
