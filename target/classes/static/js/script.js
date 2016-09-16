@@ -136,11 +136,15 @@ function buildMessage(message) {
     if(message.record != 'default' && message.record != null){
         var audio = document.createElement('audio');
         var audioSource = document.createElement('source');
+        var aLink = document.createElement('a');
         audio.autoplay="true";
         audioSource.src = '/uploads/' + message.record + ".mp3";
         audioSource.type = "audio/mp3";
+        aLink.href = '/uploads/' + message.record + ".mp3";
+        aLink.innerHTML = "Linkki";
         audio.appendChild(audioSource);
         paragraph.appendChild(audio);
+        paragraph.appendChild(aLink);
     }
     $.each(msgParts, function (i, word) {
         if (word.indexOf("www.") !== -1 || word.indexOf("http:") !== -1 || word.indexOf("https:") !== -1) {

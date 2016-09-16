@@ -148,7 +148,6 @@ $(document).ready(function(){
                  $("#audio").attr("src", url);
                  $("#audio")[0].play();
                  client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': 'Lähetti äänitteen.', 'time': time, 'image': 'default','record':recName , 'pkey': pkey}));
-                 hideRecord();
                }
              });
            }, "blob");
