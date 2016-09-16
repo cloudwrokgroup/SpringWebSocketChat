@@ -35,18 +35,7 @@
                                 <li><input class="btn btn-default btn-file" type="button" value="Lähetä" onclick="sendcanvas()"></input>  </li>  
                                 </ul></div>
                     </div>
-                    <div id="recorddiv" class="hidden">
-                        <canvas id="level" height="200" width="500"></canvas>
-                        <audio src="" id="audio"></audio>
-                        <div style="margin:10px;">
-                            <input type="button"  id="record" value="Record"></input>
-                            <input type="button" class="button disabled one" id="pause" value="Pause"></input>
-                            <input type="button" class="button disabled one" id="play" value="Play"></input>
-                            <input type="button" class="button disabled one" id="stop" value="Reset"></input>
-                            <input type="button" onclick="hideRecord()" value="Piilota"></input>
-                            <input type="button" class="button disabled one" id="save" value="Lähetä äänite"></input>
-                        </div>
-                    </div>
+
                 <div id="messagebox">
                     <div id="helpdiv"><input class="mySendButton" type="button" onclick="send();" value=">>>"/></div>
                         
@@ -55,7 +44,9 @@
                         <label style="float:left;" id="imgsendbtn" class="btn btn-default btn-file">Lähetä kuva<input type="file" name="file" id="file" accept=".png,.jpeg,.jpg,.gif" style="display: none;"/></label> 
                         </div>
                         <input type="button" onclick="showCanvas()" value="Piirrä kuva" class="btn btn-default btn-file"></input>
-                        <input type="button" onclick="showRecord()" value="Nauhoita äänite" class="btn btn-default btn-file"></input>
+                        <input type="button" id="record" value="Nauhoita äänite" class="btn btn-default btn-file"></input>
+                        <audio src="" id="audio"></audio>
+                        <img class="hidden" id="recording" src="project/rec.png" height="30" ></img>
                         <span id="action-info"></span>
 
                     <span class="hidden"  id="username" th:text="${username}"></span>  

@@ -290,17 +290,7 @@ function addImageToCanvas(e){
                 
                 
                 
-//Record
-function showRecord(){
-    document.getElementById("recorddiv").className = "";
-    document.getElementById("messages").className = "half";
-    document.getElementById("userbox").className = "half";
-}
-function hideRecord() {
-    document.getElementById("recorddiv").className = "hidden";
-    document.getElementById("messages").className = "full";
-    document.getElementById("userbox").className = "full";
-}
+
                 
                 
                 

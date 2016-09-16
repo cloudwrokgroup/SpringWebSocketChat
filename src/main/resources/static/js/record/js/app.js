@@ -7,6 +7,7 @@ function restore(){
 $(document).ready(function(){
   $(document).on("click", "#record:not(.disabled)", function(){
     elem = $(this);
+    document.getElementById("recording").className = "";
     Fr.voice.record($("#live").is(":checked"), function(){
       elem.addClass("disabled");
       $("#live").addClass("disabled");
@@ -57,6 +58,7 @@ $(document).ready(function(){
       };
       draw();
     });
+    $(this).replaceWith('<input type="button" value="STOP" id="save" class="btn btn-default btn-file"></input>');
   });
   
   $(document).on("click", "#pause:not(.disabled)", function(){
@@ -110,27 +112,33 @@ $(document).ready(function(){
   });
   
   $(document).on("click", "#save:not(.disabled)", function(){
-    Fr.voice.export(function(blob){
-      var formData = new FormData();
       
-      var recName = makeId();
-      formData.append('file', blob, recName+'.mp3');
-      
-  
-      $.ajax({
-        url: "/sound",
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(url) {
-          $("#audio").attr("src", url);
-          $("#audio")[0].play();
-          client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': 'Lähetti äänitteen.', 'time': time, 'image': 'default','record':recName , 'pkey': pkey}));
-          hideRecord();
-        }
-      });
-    }, "blob");
+     var conf = confirm("Haluatko lähettää äänitteen?");
+     if(conf){
+        Fr.voice.export(function(blob){
+          var formData = new FormData();
+
+          var recName = makeId();
+          formData.append('file', blob, recName+'.mp3');
+
+
+          $.ajax({
+            url: "/sound",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(url) {
+              $("#audio").attr("src", url);
+              $("#audio")[0].play();
+              client.send("/ws/messages", {}, JSON.stringify({'username': username, 'channel': channel, 'content': 'Lähetti äänitteen.', 'time': time, 'image': 'default','record':recName , 'pkey': pkey}));
+              hideRecord();
+            }
+          });
+        }, "blob");
+     }
     restore();
+    document.getElementById("recording").className = "hidden";
+    $(this).replaceWith('<input type="button" value="Nauhoita äänite" id="record" class="btn btn-default btn-file"></input>');
   });
 });
